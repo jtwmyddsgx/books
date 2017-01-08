@@ -1,0 +1,138 @@
+<%inherit file="base.html"/>
+<%block name="head">
+
+</%block>
+<% import time %>
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">首页</strong> /
+                <small></small>
+            </div>
+        </div>
+
+        <ul class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
+            <li><a href="${url_for('record')}" class="am-text-success"><span class="am-icon-btn am-icon-plus"></span><br/>记一笔</a>
+            </li>
+        </ul>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <a class="am-btn am-btn-link" id="selectM" data-sem="${req.get_argument('month', time.strftime("%Y-%m"))}">
+                    ${req.get_argument('month', time.strftime("%Y-%m"))}
+                </a>
+                <div class="am-dropdown" data-am-dropdown id="doc-dropdown-js">
+                  <a class="am-btn am-btn-link am-dropdown-toggle" data-am-dropdown-toggle>
+                      % if trade is not None and (trade == '入库' or trade == '出库'):
+                        ${trade}
+                      % else:
+                        查看全部
+                      % endif
+                  <span class="am-icon-caret-down"></span></a>
+                  <ul class="am-dropdown-content">
+                    <li class="am-dropdown-header">只看</li>
+                    <li><a href="#">出库</a></li>
+                    <li><a href="#">入库</a></li>
+                    <li class="am-divider"></li>
+                    <li data-data="all"><a href="#">查看全部</a></li>
+                  </ul>
+                </div>
+                <div class="am-scrollable-horizontal am-text-ms">
+                    <table class="am-table am-text-nowrap">
+                        <thead>
+                        <tr>
+                            <th>出入</th>
+                            <th>名称</th>
+                            <th>单价</th>
+                            <th>数量</th>
+                            <th>时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            % if shop_p:
+                                % for i in shop_p['items']:
+                                    <tr>
+                                        % if i.trading == 'in':
+                                            <td>入库</td>
+                                        % elif i.trading == 'out':
+                                            <td>出库</td>
+                                        % endif
+                                        <td><a href="/update/${i.id}"> ${i.title}</a></td>
+                                        <td>
+                                            % if i.cost > 80:
+                                                <span class="am-badge am-badge-danger">¥${i.cost}</span>
+                                            % elif i.cost> 60:
+                                                <span class="am-badge am-badge-secondary">¥${i.cost}</span>
+                                            % elif i.cost > 40:
+                                                <span class="am-badge am-badge-warning">¥${i.cost}</span>
+                                            % elif i.cost > 20:
+                                                <span class="am-badge">¥${i.cost}</span>
+                                            % else:
+                                                <span class="am-badge am-badge-success">¥${i.cost}</span>
+                                            % endif
+                                        </td>
+                                        <td>
+                                            ${i.num}
+                                        </td>
+                                        <td>
+                                            ${time_readable(i.time)}
+                                        </td>
+                                    </tr>
+                                % endfor
+                            % else :
+                                <li style="text-align: center;">
+                                    无记录
+                                </li>
+                            % endif
+                        </tbody>
+                    </table>
+                </div>
+                <div class="am-cf">
+                    % if shop_p:
+                        共 ${shop_p['count_all']} 条记录
+                    % endif
+                    <div class="am-fr">
+                        <ul class="am-pagination">
+                          % if shop_p:
+                            % if shop_p['prev_page']:
+                              <li class="am-pagination-prev"><a href="/?cur_page=${shop_p['prev_page']}">&laquo; Prev</a></li>
+                            % endif
+                            % if shop_p['next_page']:
+                              <li class="am-pagination-next"><a href="/?cur_page=${shop_p['next_page']}">Next &raquo;</a></li>
+                            % endif
+                          % endif
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="am-g">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-bd">
+                    <div class="am-panel am-panel-default">
+                        <div class="am-panel-bd">
+                            <div class="user-info">
+                                <p>该月共支出￥${in_total}</p>
+                                <p>该月共收入￥${out_total}</p>
+                                <p>该月总利润￥${out_total-in_total}<p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="admin-content-footer">
+        <hr>
+        <p>Copyright ©2016 Powered By yzh<br> Licensed under MIT license.</p>
+    </footer>
+</div>
+<!-- content end -->
+
+<%block name="script">
+    <script src="${static('js/app.js')}"></script>
+
+</%block>

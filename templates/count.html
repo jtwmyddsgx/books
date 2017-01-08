@@ -1,0 +1,88 @@
+<%inherit file="base.html"/>
+<%block name="head">
+
+</%block>
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <strong class="am-text-primary am-text-lg"><a href="${url_for('index')}">首页</a></strong> /
+                <small>统计</small>
+            </div>
+        </div>
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                 <div class="am-scrollable-horizontal am-text-ms">
+                    <table class="am-table am-text-nowrap">
+                        <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>金额</th>
+                            <th>数量</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            % if the_count:
+                                % for i in the_count['items']:
+                                    <tr>
+                                        <td> ${i.title}</td>
+                                        <td>
+                                            % if i.cost > 80:
+                                                <span class="am-badge am-badge-danger">¥${i.cost}</span>
+                                            % elif i.cost> 60:
+                                                <span class="am-badge am-badge-secondary">¥${i.cost}</span>
+                                            % elif i.cost > 40:
+                                                <span class="am-badge am-badge-warning">¥${i.cost}</span>
+                                            % elif i.cost > 20:
+                                                <span class="am-badge">¥${i.cost}</span>
+                                            % else:
+                                                <span class="am-badge am-badge-success">¥${i.cost}</span>
+                                            % endif
+                                        </td>
+                                        <td><a href="#"> ${i.num}</a></td>
+                                    </tr>
+                                % endfor
+                            % else :
+                                <li style="text-align: center;">
+                                    无搜索结果
+                                </li>
+                            % endif
+                        </tbody>
+                    </table>
+                 </div>
+                <div class="am-cf">
+                    % if the_count:
+                        共 ${the_count['count_all']} 条记录
+                    % endif
+                    <div class="am-fr">
+                        <ul class="am-pagination">
+                          % if the_count:
+                            % if the_count['prev_page']:
+                              <li class="am-pagination-prev"><a href="/user?cur_page=${the_count['prev_page']}">&laquo; Prev</a></li>
+                            % endif
+                            % if the_count['next_page']:
+                              <li class="am-pagination-next"><a href="/user?cur_page=${the_count['next_page']}">Next &raquo;</a></li>
+                            % endif
+                          % endif
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="admin-content-footer">
+        <hr>
+        <p>Copyright ©2016 Powered By jyx-yzh
+            <br> Licensed under MIT license.</p>
+    </footer>
+</div>
+<!-- content end -->
+
+
+
+
+<%block name="script">
+    <script src="${static('js/accounting.js')}"></script>
+
+</%block>

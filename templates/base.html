@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+    <% import config %>
+<html lang="zh-CN">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>进销存管理</title>
+    <meta name="description" content="1901">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+
+    <link rel="stylesheet" href="${static('css/amazeui.min.css')}"/>
+    <link rel="stylesheet" href="${static('css/admin.css')}"/>
+    <script src="${static('js/jquery.min.js')}"></script>
+    <!--<![endif]-->
+    <script src="${static('js/amazeui.min.js')}"></script>
+
+    <%block name="head"/>
+</head>
+
+<body>
+
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+
+        <strong>进销存管理</strong>
+        <small>在线记账</small>
+    </div>
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+          <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <li><a href="${url_for('signout')}"><span class="am-icon-area-chart"></span> 退出 </a></li>
+          </ul>
+        </div>
+</header>
+
+<div class="am-cf admin-main">
+    <!-- sidebar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list">
+                <li><a href="${url_for('index')}"><span class="am-icon-home"></span> 首页</a></li>
+                <li><a href="${url_for('record')}"><span class="am-icon-table"></span> 记账</a></li>
+                <li><a href="${url_for('count')}"><span class="am-icon-table"></span> 库存统计</a></li>
+            </ul>
+
+            <div class="am-panel am-panel-default admin-sidebar-panel">
+                <div class="am-panel-bd">
+                    <p><span class="am-icon-bookmark"></span> 公告</p>
+                    <p>
+                        今日值班人员
+                        <br> ${duty_username}
+                    </p>
+                </div>
+            </div>
+
+            <div class="am-panel am-panel-default admin-sidebar-panel">
+                <div class="am-panel-bd">
+                    <p><span class="am-icon-tag"></span> wiki</p>
+                    <p>欢迎来到进销存管理系统</p>
+                    <img src="${static('i/liantu.png')}" alt="..." class="am-img-thumbnail">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- sidebar end -->
+    ${self.body()}
+
+
+    <a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
+       data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+
+    <%block name="script"/>
+    <script >
+        $(function () {
+            var $fullText = $('.admin-fullText');
+            $('#admin-fullscreen').on('click', function () {
+                $.AMUI.fullscreen.toggle();
+            });
+
+            $(document).on($.AMUI.fullscreen.raw.fullscreenchange, function () {
+                $fullText.text($.AMUI.fullscreen.isFullscreen ? '退出全屏' : '开启全屏');
+            });
+        });
+    </script>
+
+</body>

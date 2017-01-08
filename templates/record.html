@@ -1,0 +1,81 @@
+<%inherit file="base.html"/>
+<%block name="head">
+
+</%block>
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><a href="${url_for('index')}">首页</a></strong> /
+                <small>记账</small>
+            </div>
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-md-6">
+                <form class="am-form am-form-horizontal" id="account-form" action="/record" method="post">
+                    ${xsrf_token}
+                    <fieldset>
+                        <legend>记账</legend>
+                        <div class="am-form-group">
+                            <label for="doc-ipt-3" class="am-u-sm-3 am-form-label">名称：</label>
+                            <div class="am-u-sm-9">
+                                <input type="text" name="title" id="doc-ipt-3" placeholder="商品详情" required >
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">单价：</label>
+                            <div class="am-u-sm-9">
+                                <input type="number" name="cost" id="doc-ipt-pwd-2" placeholder="￥0.00" required
+                                       pattern="^[0-9]*(\.[0-9]{1,2})?$" data-foolish-msg="请输入正确的金额" >
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="doc-ipt-num" class="am-u-sm-3 am-form-label">数量：</label>
+                            <div class="am-u-sm-9">
+                                <input type="number" name="num" id="doc-ipt-num" placeholder="1"
+                                       pattern="^[0-9]*(\.[0-9]{1,2})?$" data-foolish-msg="请输入正确的个数" >
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="doc-ipt-trad" class="am-u-sm-3 am-form-label">出入：</label>
+                            <div class="am-u-sm-9">
+                                <select name="trading" id="doc-ipt-trad">
+                                    <option value="in">入库</option>
+                                    <option value="out">出库</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-form-group ">
+                            <label class="am-u-sm-3 am-form-label">时间：</label>
+                            <div class="am-u-sm-9">
+                                <input type="date" placeholder="日历组件" value="" name="time_pay">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <div class="am-u-sm-10 am-u-sm-offset-3">
+                                <button type="submit" class="am-btn am-btn-success"><i class="am-icon-plus"></i>记一笔
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="admin-content-footer">
+        <hr>
+        <p>Copyright ©2016 Powered By jyx-yzh
+            <br> Licensed under MIT license.</p>
+    </footer>
+</div>
+<!-- content end -->
+
+
+
+
+<%block name="script">
+    <script src="${static('js/accounting.js')}"></script>
+
+</%block>
